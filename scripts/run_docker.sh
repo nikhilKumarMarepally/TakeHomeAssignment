@@ -1,2 +1,2 @@
 docker build -t docker-image .
-docker run -it --rm docker-image
+docker run -it --rm docker-image /bin/bash

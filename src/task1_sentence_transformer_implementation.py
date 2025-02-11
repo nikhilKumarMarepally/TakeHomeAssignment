@@ -26,4 +26,7 @@ sentences = ["AI is transforming every Industry", "AI Agents are going to be the
 inputs = tokenizer(sentences, return_tensors='pt', padding=True, truncation=True)
 embeddings = model(inputs['input_ids'], inputs['attention_mask'])
 
-print("Sentence Embeddings:", embeddings)
+
+print("----TASK1 Embedddings----------")
+for sentence, embeddings in zip(sentences, embeddings):
+	print(f"Sentence: {sentence}, Sentence Embeddings: {embeddings}")

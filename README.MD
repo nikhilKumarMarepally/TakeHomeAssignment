@@ -17,11 +17,15 @@ TakeHomeAssignment/
     └── run_docker.sh
 ```
 
-## Steps to reproduce task3
+## Steps to reproduce environment
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/nikhilKumarMarepally/TakeHomeAssignment.git
-   sh scripts/run_docker.sh #This will run the training for task2 for 5 epochs
+   sh scripts/run_docker.sh #This will create the environment to run task1 and task4(task2 is included)
+	--- python3 src/task1_sentence_transformer_implementation.py
+	--- python3 src/task4_train_multi_task_model.py
+        --- task3_overview.txt provides the overview for task3
    ```
 
 2. task_3_overview.txt (write-up summarizing my key decisions and insights)
+3. notebooks/TakeHomeAssignment.ipynb has the entire flow of tasks
