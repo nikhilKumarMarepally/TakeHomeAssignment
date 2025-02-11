@@ -9,7 +9,7 @@ TakeHomeAssignment/
 ├── requirements.txt
 ├── src/
 │   ├── task1_sentence_transformer_implementation.py
-│   ├── task_3_train_multi_task_model.py
+│   ├── task4_train_multi_task_model.py
 │── task_3_overview.txt  
 ├── notebooks/
 │   └── TakeHomeAssignment.ipynb
