@@ -1,7 +1,10 @@
+
+
+
 ### Prerequisites
 - Docker installed on your machine. [Install Docker](https://docs.docker.com/get-docker/)
 
-### Folder Structure
+
 TakeHomeAssignment/
 ├── Dockerfile
 ├── README.md
@@ -9,13 +12,12 @@ TakeHomeAssignment/
 ├── src/
 │   ├── task1_sentence_transformer_implementation.py
 │   ├── task_3_train_multi_task_model.py
-│── task_3_overview.txt  
+│   
 ├── notebooks/
 │   └── TakeHomeAssignment.ipynb
 └── scripts/
     └── run_docker.sh
 
-### Steps to reproduce task3
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/nikhilKumarMarepally/TakeHomeAssignment.git

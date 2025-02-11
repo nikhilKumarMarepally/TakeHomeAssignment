@@ -53,7 +53,7 @@ data = {
 '''
 task_a_label, is sentence classification (1 if the sentence is related to ML, else 0)
 tasl_b_label, is sentiment_classification (0:bad, 1:neutral, 2:good)
-Model: I will be using the same Bert model, for 2 different tasks (sentiment_analysis and sentence classifier)
+Model: Bert
 '''
 
 class MultiTaskLearningTransformer(torch.nn.Module):
@@ -61,16 +61,12 @@ class MultiTaskLearningTransformer(torch.nn.Module):
         super().__init__()
         self.bert = BertModel.from_pretrained(model_name)
         self.sentence_classifier = torch.nn.Linear(768, num_sentence_classes)
-        self.sentiment_analysis = torch.nn.Linear(768, num_sentiment_classes)
+        self.ner_classifier = torch.nn.Linear(768, num_sentiment_classes)
 
     def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)
         sentence_embeddings = outputs.last_hidden_state[:, 0, :]
-        return self.sentence_classifier(sentence_embeddings), self.sentiment_analysis(outputs.last_hidden_state)
-
-'''
-The DatasetWrapper class is a custom dataset wrapper that converts a given dataset to a format compatible with PyTorch's Dataset class. 
-'''
+        return self.sentence_classifier(sentence_embeddings), self.ner_classifier(outputs.last_hidden_state)
 
 class DatasetWrapper(TorchDataset):
     def __init__(self, dataset):
@@ -84,9 +80,6 @@ class DatasetWrapper(TorchDataset):
     def __len__(self):
         return len(self.dataset)
 
-'''
-Function for tokenization,Special tokens and subword splits are assigned -100 to ignore them during loss computation.
-'''
 def tokenize_and_align_labels(examples):
     tokenized_inputs = tokenizer(examples["sentence"], truncation=True, padding=True, is_split_into_words=False)
     labels_task_b = []
@@ -103,9 +96,6 @@ def tokenize_and_align_labels(examples):
 tokenizer = BertTokenizerFast.from_pretrained("bert-base-uncased")
 dataset = Dataset.from_dict(data)
 
-'''
-Train test split and generating train_loader, test_loader
-'''
 
 train_data, test_data = train_test_split(dataset, test_size=0.2)
 train_dataset, test_dataset = Dataset.from_dict(train_data), Dataset.from_dict(test_data)
@@ -120,12 +110,8 @@ model = MultiTaskLearningTransformer().to(device)
 optimizer = optim.Adam(model.parameters(), lr=1e-5)
 classification_loss_fn = torch.nn.CrossEntropyLoss()
 ner_loss_fn = torch.nn.CrossEntropyLoss(ignore_index=-100)
-num_epochs = 5
+num_epochs = 3
 
-
-'''
-    Training loop
-'''
 def train_model(model, train_dataloader, optimizer, classification_loss_fn, ner_loss_fn, num_epochs=3, device='cuda'):
     for epoch in range(num_epochs):
         model.train()
@@ -167,6 +153,9 @@ def train_model(model, train_dataloader, optimizer, classification_loss_fn, ner_
     
     return model
 
+
+
+
 def evaluate_model(model, eval_dataloader, classification_loss_fn, ner_loss_fn, device='cuda'):
     model.eval()
     total_classification_loss, total_ner_loss = 0, 0
@@ -199,7 +188,7 @@ def evaluate_model(model, eval_dataloader, classification_loss_fn, ner_loss_fn, 
     print(f"Evaluation Classification Accuracy: {correct_classifications / total_classifications:.4f}")
     print(f"Evaluation NER F1-Score: {f1_score(all_ner_labels, all_ner_preds, average='macro'):.4f}")
 
-print("-----------------Training & Evaluation----------------")
+
 model = train_model(model, train_dataloader, optimizer, classification_loss_fn, ner_loss_fn, num_epochs=num_epochs, device=device)
 evaluate_model(model, test_dataloader, classification_loss_fn, ner_loss_fn, device=device)
 

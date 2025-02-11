@@ -1,17 +1,15 @@
 from transformers import BertModel, BertTokenizer
 import torch
 
-'''     
-    For task1, we have to implement a sentence transformer, I chose pre-trained BERT model (works well for most the NLP tasks)
-	The model processes input text, extracts token-level embeddings from BERT, and applies an adaptive average pooling layer to obtain fixed-size        sentence representations. The tokenizer converts input sentences into tensors with padding and truncation for uniform input processing. 
-    Finally, the model generates sentence embeddings, which can be used for NLP tasks like similarity detection and classification.
 
-'''
+'''     
+	This script defines a SentenceTransformer model using a pre-trained BERT model to generate sentence embeddings. 
+	The model processes input text, extracts token-level embeddings from BERT, and applies an adaptive average pooling layer to obtain fixed-size sentence representations. The tokenizer converts input sentences into tensors with padding and truncation for uniform input processing. Finally, the model generates sentence embeddings, which can be used for NLP tasks like similarity detection and classification.'''
 class SentenceTransformer(torch.nn.Module):
     def __init__(self, model_name='bert-base-uncased'):
         super(SentenceTransformer, self).__init__()
         self.bert = BertModel.from_pretrained(model_name)
-        self.pooling = torch.nn.AdaptiveAvgPool1d(1) #torch.nn.AdaptiveAvgPool1d(1) is used to convert variable-length token embeddings into a fixed-size sentence embedding.
+        self.pooling = torch.nn.AdaptiveAvgPool1d(1) 
 
     def forward(self, input_ids, attention_mask):
         outputs = self.bert(input_ids=input_ids, attention_mask=attention_mask)

@@ -11,4 +11,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Run the application
-CMD ["python", "src/task_3_train_multi_task_model.py"]
+CMD ["python", "src/task3_train_multi_task_model.py"]
