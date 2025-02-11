@@ -1,7 +1,8 @@
-### Prerequisites
+## Prerequisites
 - Docker installed on your machine. [Install Docker](https://docs.docker.com/get-docker/)
 
-### Folder Structure
+## Folder Structure
+```
 TakeHomeAssignment/
 ├── Dockerfile
 ├── README.md
@@ -14,10 +15,13 @@ TakeHomeAssignment/
 │   └── TakeHomeAssignment.ipynb
 └── scripts/
     └── run_docker.sh
+```
 
-### Steps to reproduce task3
+## Steps to reproduce task3
 1. **Clone the Repository**:
    ```bash
    git clone https://github.com/nikhilKumarMarepally/TakeHomeAssignment.git
    sh scripts/run_docker.sh #This will run the training for task2 for 5 epochs
+   ```
+
 
