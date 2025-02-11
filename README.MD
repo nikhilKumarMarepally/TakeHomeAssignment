@@ -24,4 +24,4 @@ TakeHomeAssignment/
    sh scripts/run_docker.sh #This will run the training for task2 for 5 epochs
    ```
 
-
+2. task_3_overview.txt (write-up summarizing my key decisions and insights)
